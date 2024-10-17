@@ -31,10 +31,10 @@ app.get("/get_logs", async (request, response) => {
       const database = client.db("Kairos");
       const collection = database.collection("history");
       const data = await collection.find().toArray();
-      res.json(data);
+      response.json(data);
     } catch (err) {
       console.error("Error fetching data:", err);
-      res.status(500).send("Error fetching data");
+      response.status(500).send("Error fetching data");
     }
   }
 });
@@ -43,7 +43,7 @@ app.post("/add_log", async (request, response) => {
   if (request.query.token == process.env.GRAND_API_PASS) {
     try {
       await addLog(request.query.duration, request.query.sessions);
-      res.sendStatus(200);
+      response.sendStatus(200);
     } catch (err) {
       response.sendStatus(500);
       console.log(err);
