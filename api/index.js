@@ -26,23 +26,27 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/get_logs", async (req, res) => {
-  try {
-    const database = client.db("Kairos");
-    const collection = database.collection("history");
-    const data = await collection.find().toArray();
-    res.json(data);
-  } catch (err) {
-    console.error("Error fetching data:", err);
-    res.status(500).send("Error fetching data");
+  if(request.query.token == process.env.GRAND_API_PASS) {
+    try {
+      const database = client.db("Kairos");
+      const collection = database.collection("history");
+      const data = await collection.find().toArray();
+      res.json(data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      res.status(500).send("Error fetching data");
+    }
   }
 });
 
 app.post("/add_log", async (request, response) => {
-  try {
-    await addLog(request.query.duration, request.query.sessions);
-  } catch (err) {
-    response.sendStatus(500);
-    console.log(err);
+  if(request.query.token == process.env.GRAND_API_PASS) {
+    try {
+      await addLog(request.query.duration, request.query.sessions);
+    } catch (err) {
+      response.sendStatus(500);
+      console.log(err);
+    }
   }
 });
 
