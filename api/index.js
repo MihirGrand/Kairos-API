@@ -25,8 +25,8 @@ app.get("/", async (req, res) => {
   res.send("Kairos API");
 });
 
-app.get("/get_logs", async (req, res) => {
-  if(request.query.token == process.env.GRAND_API_PASS) {
+app.get("/get_logs", async (reqest, response) => {
+  if (request.query.token == process.env.GRAND_API_PASS) {
     try {
       const database = client.db("Kairos");
       const collection = database.collection("history");
@@ -40,9 +40,10 @@ app.get("/get_logs", async (req, res) => {
 });
 
 app.post("/add_log", async (request, response) => {
-  if(request.query.token == process.env.GRAND_API_PASS) {
+  if (request.query.token == process.env.GRAND_API_PASS) {
     try {
       await addLog(request.query.duration, request.query.sessions);
+      res.sendStatus(200);
     } catch (err) {
       response.sendStatus(500);
       console.log(err);
