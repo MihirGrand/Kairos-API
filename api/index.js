@@ -25,7 +25,7 @@ app.get("/", async (req, res) => {
   res.send("Kairos API");
 });
 
-app.get("/get_logs", async (reqest, response) => {
+app.get("/get_logs", async (request, response) => {
   if (request.query.token == process.env.GRAND_API_PASS) {
     try {
       const database = client.db("Kairos");
